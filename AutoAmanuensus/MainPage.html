@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  	<script src="jquery-3.3.1.js"></script>
+    <meta charset="UTF-8">
+    <title>title</title>
+  </head>
+
+
+  <body>
+  <script>
+
+  //The $getWords function takes a string as input and uses jQuery's getJSON function to pull a JSON array of synonyms and antonyms from http://words.bighugelabs.com/api/2/, using our key de09a1667a75c2330105a64129c9db42.
+  //String -> JSON 
+  function $getWords(word)
+  {
+  	var data = "http://words.bighugelabs.com/api/2/de09a1667a75c2330105a64129c9db42/" + word + "/json";
+  	return $.getJSON(data);
+  }
+
+  </script>
+  </body>
+
+</html>
