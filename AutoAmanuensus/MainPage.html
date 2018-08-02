@@ -19,6 +19,57 @@
   	return $.getJSON(data);
   }
 
+//compileWordsRunner creates a Hashtable that will keep track of every word used in the input, and the number of times that it is used.
+//String -> [compileWords(array, array, array)] -> Dictionary
+function compileWordsRunner(essay)
+{
+  //splits up input into array where each word is an index
+  var wordList = essay.split(" ");   
+
+  //for loop designed to make all words in the array completely lowercase
+  var x;
+  for (x in wordList) 
+  {
+    wordList[x] = wordList[x].toLowerCase();
+  }
+
+  var dict = {};
+
+  return compileWords(wordList, dict);
+}
+
+
+//CompileWords takes an input string, array of words, and array of numbers corresponding to the words in the same index, and 
+//String, List of Strings, List of Numbers - > Hashtable?
+function compileWords(wordList, dict)
+{
+  if (dict[wordList[0]] == undefined)
+  {
+    dict[wordList[0]] = 1;
+    endOfArray(wordList, dict);
+  }
+  else
+  {
+    dict[wordList[0]] = dict[wordList[0]] + 1;
+    endOfArray(wordList, dict);
+  }
+}
+
+//endOfArray is a function to test to see if an array is on its final index.
+//array, dictionary -> dictionary
+function endOfArray(wordList, dict)
+{
+  if (wordList.length == 1)
+    {
+      console.log(dict);
+      return dict;
+    }
+    else
+    {
+      compileWords(wordList.slice(1, wordList.length), dict);
+    }
+}
+
   </script>
   </body>
 
