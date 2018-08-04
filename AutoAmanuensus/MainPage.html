@@ -11,16 +11,19 @@
   <body>
   <script>
 
-  //The $getWords function takes a string as input and uses jQuery's getJSON function to pull a JSON array of synonyms and antonyms from http://words.bighugelabs.com/api/2/, using our key de09a1667a75c2330105a64129c9db42.
-  //String -> JSON 
-  function $getWords(word)
-  {
-  	var data = "http://words.bighugelabs.com/api/2/de09a1667a75c2330105a64129c9db42/" + word + "/json";
-  	return $.getJSON(data);
-  }
+//The 'dict' variable is a dictionary that is used to store the words that appear in a given essay, as well as the number of times they are present.
+var dict = {};
 
-//compileWordsRunner creates a Hashtable that will keep track of every word used in the input, and the number of times that it is used.
-//String -> [compileWords(array, array, array)] -> Dictionary
+//The $getWords function takes a string as input and uses jQuery's getJSON function to pull a JSON array of synonyms and antonyms from http://words.bighugelabs.com/api/2/, using our key de09a1667a75c2330105a64129c9db42.
+//String -> JSON 
+function $getWords(word)
+{
+	var data = "http://words.bighugelabs.com/api/2/de09a1667a75c2330105a64129c9db42/" + word + "/json";
+	return $.getJSON(data);
+}
+
+//'compileWordsRunner' takes in an essay in the form of a String, and places all of the words in order into an array called wordList. It the nuses helper functions to determine the number of times each word repeats.
+//String -> [Change Values in 'dict']
 function compileWordsRunner(essay)
 {
   //splits up input into array where each word is an index
@@ -33,43 +36,45 @@ function compileWordsRunner(essay)
     wordList[x] = wordList[x].toLowerCase();
   }
 
-  var dict = {};
+  //reset value of 'dict' to avoid potential errors.
+  dict = {};
 
-  return compileWords(wordList, dict);
+  compileWords(wordList);
+  return 0;
 }
 
 
 //CompileWords takes an input string, array of words, and array of numbers corresponding to the words in the same index, and 
-//String, List of Strings, List of Numbers - > Hashtable?
-function compileWords(wordList, dict)
+//[Array of Strings] -> [Change Values in 'dict']
+function compileWords(wordList)
 {
+  //If the first word in 'wordList' is not yet listed in 'dict', it is added.
   if (dict[wordList[0]] == undefined)
   {
     dict[wordList[0]] = 1;
-    endOfArray(wordList, dict);
+    endOfArray(wordList);
   }
+  //If the first word in 'wordList' is already listed in 'dict', its value is incremented.
   else
   {
     dict[wordList[0]] = dict[wordList[0]] + 1;
-    endOfArray(wordList, dict);
+    endOfArray(wordList);
   }
 }
 
-//endOfArray is a function to test to see if an array is on its final index.
-//array, dictionary -> dictionary
-function endOfArray(wordList, dict)
+//endOfArray is a function to test to see if an array is on its final index. If it is not, it calls compileWords on the rest of the 'wordList' Array.
+//[Array of Strings] -> [compileWords(Array of Strings)]
+function endOfArray(wordList)
 {
   if (wordList.length == 1)
     {
-      console.log(dict);
-      return dict;
+      return 0;
     }
     else
     {
-      compileWords(wordList.slice(1, wordList.length), dict);
+      compileWords(wordList.slice(1, wordList.length));
     }
 }
-
   </script>
   </body>
 
