@@ -9,7 +9,7 @@
 
 
   <body>
-    
+
   <script>
 
 
@@ -26,6 +26,8 @@ var maxRepeat = 0;
 //The 'commonWords' variable is an array containing common words that will be overlooked when suggesting synonyms.
 var commonWords = ["I", "a", "and", "but", "if"];
 
+//The 'flaggedWords' variabe is an array containing all words that have been flagged as exceeding the maximum number of repeats for the current essay. 
+var flaggedWords = [];
 
 
 
@@ -71,6 +73,18 @@ function getAdjectives(JSON)
   return JSON.responseJSON.adjective.syn
 }
 
+//The 'wordRepeatChecker' function checks the dictionary to see what words have been repeated more times than the maximum value allotted by 'maxRepeat', and stores them in an array of strings.
+//[Value of 'dict'] -> Array of Strings
+function wordRepeatChecker()
+{
+  for (x in dict)
+  {
+    if(dict[x]> maxRepeat)
+      flaggedWords.push(x);
+  }
+  return 0;
+}
+
 //'compileWordsRunner' takes in an essay in the form of a String, and places all of the words in order into an array called wordList. It the nuses helper functions to determine the number of times each word repeats.
 //String -> [Change Values in 'dict']
 function compileWordsRunner(essay)
@@ -80,7 +94,7 @@ function compileWordsRunner(essay)
 
   //for loop designed to make all words in the array completely lowercase
   var x;
-  for (x in wordList) 
+  for (x in wordList)
   {
     wordList[x] = wordList[x].toLowerCase();
   }
@@ -91,7 +105,6 @@ function compileWordsRunner(essay)
   compileWords(wordList);
   return 0;
 }
-
 
 //CompileWords takes an input string, array of words, and array of numbers corresponding to the words in the same index, and 
 //[Array of Strings] -> [Change Values in 'dict']
