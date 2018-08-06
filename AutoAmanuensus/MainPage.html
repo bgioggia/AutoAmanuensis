@@ -9,17 +9,66 @@
 
 
   <body>
+    
   <script>
+
+
+/*
+JAVASCRIPT VARIABLES
+*/
 
 //The 'dict' variable is a dictionary that is used to store the words that appear in a given essay, as well as the number of times they are present.
 var dict = {};
 
-//The $getWords function takes a string as input and uses jQuery's getJSON function to pull a JSON array of synonyms and antonyms from http://words.bighugelabs.com/api/2/, using our key de09a1667a75c2330105a64129c9db42.
+//The 'maxRepeat' variable is a number that is used as a reference by functions to determine how many times a word may be repeated before a suggestion for a replacment is provided.
+var maxRepeat = 0;
+
+//The 'commonWords' variable is an array containing common words that will be overlooked when suggesting synonyms.
+var commonWords = ["I", "a", "and", "but", "if"];
+
+
+
+
+/*
+JAVASCRIPT FUNCTIONS
+*/
+
+//The 'setMaxRepeat' function takes a number as an input and sets the 'maxRepeat' variable equal to it. If a number is not entered, the function does nothing.
+//Number -> [Change Value of 'maxRepeat']
+function setMaxRepeat(num)
+{
+  if(typeof num == 'number')
+    maxRepeat = num;
+  return 0;
+}
+
+//The '$getWords' function takes a string as input and uses jQuery's getJSON function to pull a JSON array of synonyms and antonyms from http://words.bighugelabs.com/api/2/, using our key de09a1667a75c2330105a64129c9db42.
 //String -> JSON 
 function $getWords(word)
 {
 	var data = "http://words.bighugelabs.com/api/2/de09a1667a75c2330105a64129c9db42/" + word + "/json";
 	return $.getJSON(data);
+}
+
+//The 'getNouns' function takes the output given by the ____ API in the $getWords function, and will return an array of all Noun Synonyms that are present. 
+//JSON -> Array of Strings
+function getNouns(JSON)
+{
+  return JSON.responseJSON.noun.syn
+}
+
+//The 'getVerbs' function takes the output given by the ____ API in the $getWords function, and will return an array of all Verb Synonyms that are present. 
+//JSON -> Array of Strings
+function getVerbs(JSON)
+{
+  return JSON.responseJSON.verb.syn
+}
+
+//The 'getAdjectives' function takes the output given by the ____ API in the $getWords function, and will return an array of all Adjective Synonyms that are present. 
+//JSON -> Array of Strings
+function getAdjectives(JSON)
+{
+  return JSON.responseJSON.adjective.syn
 }
 
 //'compileWordsRunner' takes in an essay in the form of a String, and places all of the words in order into an array called wordList. It the nuses helper functions to determine the number of times each word repeats.
@@ -75,7 +124,9 @@ function endOfArray(wordList)
       compileWords(wordList.slice(1, wordList.length));
     }
 }
+
   </script>
+
   </body>
 
 </html>
