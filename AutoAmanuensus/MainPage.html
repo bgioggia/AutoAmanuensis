@@ -85,6 +85,23 @@ function wordRepeatChecker()
   return 0;
 }
 
+//'returnValues' is a function used for quick testing in console that returns all values that may be relevant for troubleshooting.
+//Values of Variables -> console message
+function returnValues()
+{
+  console.log("dict Values");
+  console.log(dict);
+  console.log();
+  console.log("maxRepeat Value");
+  console.log(maxRepeat);
+  console.log();
+  console.log("flaggedWords Values");
+  console.log(flaggedWords);
+  console.log();
+  console.log();
+  console.log();
+}
+
 //'compileWordsRunner' takes in an essay in the form of a String, and places all of the words in order into an array called wordList. It the nuses helper functions to determine the number of times each word repeats.
 //String -> [Change Values in 'dict']
 function compileWordsRunner(essay)
