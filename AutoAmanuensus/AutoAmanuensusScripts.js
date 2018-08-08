@@ -9,13 +9,16 @@ var dict = {};
 var maxRepeat = 0;
 
 //The 'commonWords' variable is an array containing common words that will be overlooked when suggesting synonyms.
-var commonWords = ["I", "a", "and", "but", "if", "when", "where", "how"];
+var commonWords = ["i", "a", "and", "but", "if", "when", "where", "how", "", " ", ];
 
 //The 'flaggedWords' variabe is an array containing all words that have been flagged as exceeding the maximum number of repeats for the current essay. 
 var flaggedWords = [];
 
 //
 var essay = "";
+
+//The 'repeatedWords '
+var repeatedWords = "";
 
 /*
 JAVASCRIPT FUNCTIONS
@@ -25,16 +28,19 @@ JAVASCRIPT FUNCTIONS
 //
 function setEssayVal()
 {
+	setMaxRepeat();
+	document.getElementById("EssayOutput").value = '';
 	essay = document.getElementById("EssayBox").value;
+	compileWordsRunner(essay);
+	wordRepeatChecker();
+	document.getElementById("EssayOutput").value = "The following words are repeated more than " + maxRepeat + " times:\n\n" + flaggedWordsToString();
 }
 
 //The 'setMaxRepeat' function takes a number as an input and sets the 'maxRepeat' variable equal to it. If a number is not entered, the function does nothing.
 //Number -> [Change Value of 'maxRepeat']
 function setMaxRepeat(num)
 {
-  if(typeof num == 'number')
-    maxRepeat = num;
-  return 0;
+	maxRepeat = document.getElementById("MaxNum").value;
 }
 
 //The '$getWords' function takes a string as input and uses jQuery's getJSON function to pull a JSON array of synonyms and antonyms from http://words.bighugelabs.com/api/2/, using our key de09a1667a75c2330105a64129c9db42.
@@ -67,13 +73,16 @@ function getAdjectives(JSON)
 }
 
 //The 'wordRepeatChecker' function checks the dictionary to see what words have been repeated more times than the maximum value allotted by 'maxRepeat', and stores them in an array of strings.
-//[Value of 'dict'] -> Array of Strings
+//[Value of 'dict'] -> [Change value of 'maxRepeat']
 function wordRepeatChecker()
 {
+	flaggedWords = [];
   for (x in dict)
   {
-    if(dict[x]> maxRepeat)
+    if(!(commonWords.includes(x)) && (dict[x]> maxRepeat))
+    {
       flaggedWords.push(x);
+  }
   }
   return 0;
 }
@@ -90,17 +99,19 @@ function returnValues()
   console.log();
   console.log("flaggedWords Values");
   console.log(flaggedWords);
-  console.log();
-  console.log();
-  console.log();
 }
 
 //'compileWordsRunner' takes in an essay in the form of a String, and places all of the words in order into an array called wordList. It the nuses helper functions to determine the number of times each word repeats.
 //String -> [Change Values in 'dict']
 function compileWordsRunner(essay)
 {
+	essay = essay.replace(/\n/ig," ");
+	console.log(essay);
   //splits up input into array where each word is an index
-  var wordList = essay.split(" ");   
+  var wordList = essay.split(" ");
+  console.log(wordList);
+  //var temp = ""
+  //temp = 
 
   //for loop designed to make all words in the array completely lowercase
   var x;
@@ -146,4 +157,17 @@ function endOfArray(wordList)
     {
       compileWords(wordList.slice(1, wordList.length));
     }
+}
+
+//
+//[Value of 'flaggedWords'] -> String
+function flaggedWordsToString()
+{
+	repeatedWords = "";
+	for (x in flaggedWords)
+	{
+		repeatedWords = repeatedWords + ", " + flaggedWords[x];
+	}
+	return repeatedWords.substring(2, repeatedWords.length);
+
 }
