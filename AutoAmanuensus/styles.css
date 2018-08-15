@@ -2,8 +2,34 @@ textarea{
 	resize: none;
 	margin: 0;
 	border-radius: 0;
+	display: block;
+	margin-left: auto;
+    margin-right: auto;
 }
 
+
+input{
+	display: block;
+	margin-left: auto;
+    margin-right: auto;
+}
+body{
+	background-color: #66ccff;
+}
+
+button{
+	margin: 5px;
+	display: block;
+	margin-left: auto;
+    margin-right: auto;
+}
+.container{
+	margin: 50px auto;
+	margin-left: auto;
+    margin-right: auto;
+    margin-top:auto;
+    margin-bottom:auto;
+}
 
 
 .backdrop{
@@ -13,5 +39,4 @@ textarea{
 
 .highlights{
 	white-space: pre-wrap;
-	word-wrap: break-word;
 }
